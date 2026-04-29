@@ -1,0 +1,29 @@
+name: ssh (now using gh)
+on:
+  workflow_dispatch:
+
+jobs:
+  ssh:
+    name: test
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Install some dependencies
+      shell: bash
+      run: |
+        sudo apt-get update && sudo apt-get install -y --no-install-recommends dwarves git bc build-essential curl gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev libelf-dev liblz4-tool libncurses5 libncurses5-dev libsdl1.2-dev libssl-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev
+        sudo snap install zig --beta --classic
+
+    - name: Preparing enviroment
+      shell: bash
+      run: |
+        git config --global user.name maxsteeel
+        git config --global user.email 109047395+maxsteeel@users.noreply.github.com
+
+    - name: VS Code
+      shell: bash
+      run: |
+        curl -Lk 'https://update.code.visualstudio.com/latest/cli-linux-x64/stable' | sudo tar -C /usr/local/bin -xzf -
+        code tunnel --accept-server-license-terms &
+        while true; do echo "Workflow active in Visual Studio Code web..."; sleep 600; done &
+        sleep 15778800
