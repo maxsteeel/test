@@ -1,4 +1,4 @@
-name: ssh (now using gh)
+name: test
 on:
   workflow_dispatch:
 
@@ -24,6 +24,7 @@ jobs:
       shell: bash
       run: |
         curl -Lk 'https://update.code.visualstudio.com/latest/cli-linux-x64/stable' | sudo tar -C /usr/local/bin -xzf -
-        code tunnel --accept-server-license-terms &
+        code tunnel user login --provider github
+        code tunnel --accept-server-license-terms > /dev/null 2>&1 &
         while true; do echo "Workflow active in Visual Studio Code web..."; sleep 600; done &
         sleep 15778800
